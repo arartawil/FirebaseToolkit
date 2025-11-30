@@ -1,8 +1,8 @@
 {
   "name": "com.yourname.firebase-toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "Firebase Toolkit",
-  "description": "High-level Firebase systems for Unity - Leaderboards, Save System, Profiles, and more",
+  "description": "High-level Firebase systems for Unity - Authentication, Leaderboards, Cloud Save System, and more",
   "unity": "2020.3",
   "keywords": [
     "firebase",

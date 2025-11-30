@@ -2,6 +2,109 @@
 
 All notable changes to Firebase Toolkit for Unity will be documented in this file.
 
+## [0.2.0] - 2024-12-01
+
+### 🎉 Major Feature Release - Cloud Save System
+
+### Added - Save System
+- **SaveSystem**: Complete cloud save functionality
+  - `SaveGame()` - Save game state to Firebase cloud
+  - `LoadGame()` - Load game state from cloud
+  - `GetAllSaves()` - Retrieve all save slots
+  - `GetSaveMetadata()` - Fast metadata loading
+  - `DeleteSave()` - Remove save slots
+  - `SaveExists()` - Check slot availability
+  - Multiple save slot support
+  - Cloud synchronization across devices
+  - Automatic metadata generation
+
+- **SaveData**: Extensible save data structure
+  - Player stats (level, health, coins, experience)
+  - Position and scene tracking
+  - Inventory system support
+  - Quest progress tracking
+  - Settings persistence
+  - Custom data dictionary
+  - Formatted playtime display
+  - Timestamp utilities
+
+- **AutoSave**: Automatic save component
+  - Configurable save intervals
+  - Auto-save on quit
+  - Auto-save on pause (mobile)
+  - Manual trigger support
+  - Save state tracking
+  - Event callbacks
+  - Playtime tracking
+
+- **SaveSlotManager**: UI management for save slots
+  - Display all available saves
+  - Slot selection interface
+  - Delete confirmation
+  - Loading states
+  - Status messages
+  - Refresh functionality
+  - Dynamic slot creation
+
+- **SaveSlotUI**: Individual slot display
+  - Slot name formatting
+  - Level display
+  - Playtime formatting
+  - Relative timestamps ("2h ago")
+  - Load/Delete buttons
+  - Metadata visualization
+
+### Added - Demo & Documentation
+- **SaveSystemDemo**: Complete demo scene
+  - Game state manipulation
+  - Save/Load interface
+  - Multiple slot support
+  - Visual feedback
+  - Status indicators
+
+- **SaveDemoManager**: Demo controller
+  - Coins, experience, health management
+  - Level-up system
+  - Save/Load UI integration
+  - Firebase integration example
+
+- **SETUP_GUIDE**: Comprehensive setup documentation
+  - Scene setup instructions
+  - Code examples
+  - Firebase structure
+  - Security rules
+  - Platform-specific notes
+  - Troubleshooting guide
+  - Best practices
+
+### Technical Improvements
+- JSON serialization using Unity's JsonUtility
+- Proper namespace management
+- Error handling and validation
+- User authentication checks
+- Database reference management
+- Async operation handling with callbacks
+
+### Database Structure
+```
+saves/{userId}/
+  ├── slot1/ (full save data)
+  ├── slot1_metadata/ (quick metadata)
+  ├── slot2/
+  ├── autosave/
+  └── ...
+```
+
+### Breaking Changes
+- None (new features only, backward compatible)
+
+### Security
+- User-specific save isolation
+- Authentication required for all operations
+- Firebase security rules enforcement
+
+---
+
 ## [0.1.0] - 2024-11-30
 
 ### 🎉 Initial Release
