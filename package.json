@@ -1,0 +1,22 @@
+{
+  "name": "com.yourname.firebase-toolkit",
+  "version": "0.1.0",
+  "displayName": "Firebase Toolkit",
+  "description": "High-level Firebase systems for Unity - Leaderboards, Save System, Profiles, and more",
+  "unity": "2020.3",
+  "keywords": [
+    "firebase",
+    "database",
+    "leaderboard",
+    "save system",
+    "multiplayer"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com",
+    "url": "https://github.com/yourusername"
+  },
+  "dependencies": {
+  },
+  "type": "tool"
+}
