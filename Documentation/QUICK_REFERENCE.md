@@ -1,4 +1,4 @@
-# Firebase Toolkit v0.1.0 - Quick Reference
+# Firebase Toolkit v0.2.0 - Quick Reference
 
 ## 🚀 Installation Checklist
 
@@ -8,6 +8,7 @@
 - [ ] Enable Email/Password auth in Firebase Console
 - [ ] Set up database security rules
 - [ ] Add FirebaseManager to scene
+- [ ] Configure save system paths (optional)
 
 ## 📝 Code Snippets
 
@@ -117,6 +118,64 @@ void OnDestroy() {
 }
 ```
 
+## 💾 Save System
+
+### Save Game
+```csharp
+using FirebaseToolkit.SaveSystem;
+
+SaveSystem.SaveSystem saveSystem = new SaveSystem.SaveSystem();
+
+SaveSystem.SaveData data = new SaveSystem.SaveData
+{
+    playerLevel = 5,
+    coins = 1000,
+    health = 80,
+    experience = 250
+};
+
+saveSystem.SaveGame(data, "slot1", (success, message) => {
+    Debug.Log(message);
+});
+```
+
+### Load Game
+```csharp
+saveSystem.LoadGame("slot1", (data, success) => {
+    if (success) {
+        playerLevel = data.playerLevel;
+        coins = data.coins;
+    }
+});
+```
+
+### Get All Saves
+```csharp
+saveSystem.GetAllSaves((saves) => {
+    foreach (var save in saves) {
+        Debug.Log($"{save.slotName}: Level {save.playerLevel}, {save.GetFormattedPlaytime()}");
+    }
+});
+```
+
+### Delete Save
+```csharp
+saveSystem.DeleteSave("slot2", (success) => {
+    if (success) Debug.Log("Deleted");
+});
+```
+
+### Auto-Save
+```csharp
+AutoSave autoSave = gameObject.AddComponent<AutoSave>();
+autoSave.SetAutoSaveEnabled(true);
+autoSave.SetSaveInterval(30f); // Every 30 seconds
+
+autoSave.OnAutoSaveComplete += (success) => {
+    if (success) ShowNotification("Auto-saved");
+};
+```
+
 ## 🔒 Firebase Security Rules
 
 ```json
@@ -135,6 +194,12 @@ void OnDestroy() {
         ".read": "auth != null",
         ".write": "auth != null && auth.uid == $userId"
       }
+    },
+    "saves": {
+      "$userId": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId"
+      }
     }
   }
 }
@@ -145,6 +210,12 @@ void OnDestroy() {
 ### Leaderboards
 ```
 leaderboards/{leaderboardId}/{userId}
+```
+
+### Saves
+```
+saves/{userId}/{slotName}
+saves/{userId}/{slotName}_metadata
 ```
 
 ### User Profiles

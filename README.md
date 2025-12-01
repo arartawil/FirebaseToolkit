@@ -2,7 +2,7 @@
 
 High-level Firebase systems for Unity - Authentication, Leaderboards, Save System, Profiles, and more.
 
-## 🎯 Current Version: v0.1.0
+## 🎯 Current Version: v0.2.0
 
 ### ✅ What's Included
 
@@ -18,11 +18,20 @@ High-level Firebase systems for Unity - Authentication, Leaderboards, Save Syste
   - User profile integration
   - Real-time database sync
 
+- **Cloud Save System** 🆕
+  - Save game state to cloud
+  - Load from any device
+  - Multiple save slots
+  - Auto-save functionality
+  - Save metadata for quick loading
+  - Cross-device synchronization
+
 - **Complete UI System**
   - Login/Register panels
   - Profile management
   - Leaderboard display
-  - Game integration example
+  - Save slot management
+  - Game integration examples
 
 ## 📦 Installation
 
@@ -80,7 +89,7 @@ using FirebaseToolkit.Leaderboard;
 LeaderboardSystem leaderboard = new LeaderboardSystem("global");
 
 // Submit score (requires authentication)
-leaderboard.SubmitScore(playerName, score, success => {
+leaderboard.SubmitScore(score, (success, message) => {
     if (success) {
         Debug.Log("Score submitted!");
     }
@@ -89,9 +98,53 @@ leaderboard.SubmitScore(playerName, score, success => {
 // Get top scores
 leaderboard.GetTopScores(10, entries => {
     foreach (var entry in entries) {
-        Debug.Log($"#{entry.rank} {entry.playerName}: {entry.score}");
+        Debug.Log($"#{entry.rank} {entry.displayName}: {entry.score}");
     }
 });
+```
+
+### 4. Use Cloud Save System 🆕
+```csharp
+using FirebaseToolkit.SaveSystem;
+
+SaveSystem.SaveSystem saveSystem = new SaveSystem.SaveSystem();
+
+// Save game state
+SaveSystem.SaveData data = new SaveSystem.SaveData
+{
+    playerLevel = 5,
+    coins = 1000,
+    health = 80,
+    playtime = 3600f
+};
+
+saveSystem.SaveGame(data, "slot1", (success, message) => {
+    if (success) {
+        Debug.Log("Game saved to cloud!");
+    }
+});
+
+// Load game state
+saveSystem.LoadGame("slot1", (data, success) => {
+    if (success) {
+        // Restore your game state
+        playerLevel = data.playerLevel;
+        coins = data.coins;
+        Debug.Log("Game loaded from cloud!");
+    }
+});
+
+// Get all saves
+saveSystem.GetAllSaves((saves) => {
+    foreach (var save in saves) {
+        Debug.Log($"{save.slotName}: Level {save.playerLevel}");
+    }
+});
+
+// Enable auto-save
+AutoSave autoSave = gameObject.AddComponent<AutoSave>();
+autoSave.SetAutoSaveEnabled(true);
+autoSave.SetSaveInterval(30f); // Save every 30 seconds
 ```
 
 ## 📖 Documentation
